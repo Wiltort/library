@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "title": "test1",
+        "author": "Newton",
+        "year": 1526,
+        "status": "в наличии"
+    },
+    {
+        "id": 2,
+        "title": "weweew",
+        "author": "sdsds",
+        "year": 1234,
+        "status": "в наличии"
+    },
+    {
+        "id": 3,
+        "title": "ddd",
+        "author": "newton",
+        "year": 1223,
+        "status": "в наличии"
+    }
+]
