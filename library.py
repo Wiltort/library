@@ -4,6 +4,7 @@ from typing import List, Dict, Optional
 
 
 def singleton(class_):
+    '''Декоратор для паттерна синглтон'''
     instances = {}
 
     def getinstance(*args, **kwargs):
@@ -15,6 +16,9 @@ def singleton(class_):
 
 
 class Book:
+    '''
+    Класс Книга
+    '''
     ids = set()
 
     def __init__(
@@ -25,6 +29,9 @@ class Book:
         status: str = "в наличии",
         id: Optional[int] = None,
     ):
+        '''
+        Создание новой книги
+        '''
         self.title = title
         self.author = author
         if id is not None:
@@ -38,6 +45,9 @@ class Book:
         self.status = status
 
     def to_dict(self) -> Dict:
+        '''
+        Представление объекта книги в виде словаря
+        '''
         return {
             "id": self.id,
             "title": self.title,
@@ -48,6 +58,9 @@ class Book:
 
     @classmethod
     def new_id(cls) -> int:
+        '''
+        Генерация нового id не совпадающего с уже занятыми по возрастанию с учетом пропусков
+        '''
         id = 1
         while id in cls.ids:
             id += 1
@@ -57,7 +70,15 @@ class Book:
 
 @singleton
 class BookDatabase:
+    ''' 
+    Класс для подключения к базе книг. 
+    Использован паттерн синглтон для невозможности дублирования обращения к базе(ам).
+    В данном проекте не обязательно, но в дальнейшем может сыграть.
+    '''
     def __init__(self, books_file: str):
+        '''
+        Инициализация нового подключения
+        '''
         self.books: List[Book] = []
         self.file = books_file
         self.load_file()
@@ -136,7 +157,10 @@ class BookDatabase:
             print(f"Книга с id {book_id} не найдена")
 
     def find_books(self, **criteria) -> None:
-        books = self.get_list_or_none(**criteria)  # проверить
+        '''
+        Поиск и вывод книг по критериям
+        '''
+        books = self.get_list_or_none(**criteria)
         if books:
             n = len(books)
             print(f"Найдено {n} книг.")
@@ -146,12 +170,18 @@ class BookDatabase:
             print("Ничего не найдено")
 
     def all_books(self) -> None:
+        '''
+        Вывод всех книг
+        '''
         n = len(self.books)
         print(f"Всего в базе {n} книг.")
         for book in self.books:
             print(book.to_dict())
 
     def change_status(self, book_id: int, new_status: str) -> None:
+        '''
+        Изменение статуса книги по ID
+        '''
         if new_status not in ["в наличии", "выдана"]:
             print(
                 "Неверное значение статуса! Корректные значения: 'в наличии', 'выдана'."
